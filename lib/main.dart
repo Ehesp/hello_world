@@ -5,7 +5,7 @@ void main() async {
   var handler =
       const Pipeline().addMiddleware(logRequests()).addHandler(_echoRequest);
 
-  var server = await shelf_io.serve(handler, 'localhost', 8080);
+  var server = await shelf_io.serve(handler, '0.0.0.0', 8080);
 
   // Enable content compression
   server.autoCompress = true;
