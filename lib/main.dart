@@ -1,17 +1,20 @@
+import 'dart:io';
+
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 
 void main() async {
-  var handler =
-      const Pipeline().addMiddleware(logRequests()).addHandler(_echoRequest);
+    final handler =
+        const Pipeline().addMiddleware(logRequests()).addHandler(_echoRequest);
 
-  var server = await shelf_io.serve(handler, '0.0.0.0', 8080);
+    final server = await shelf_io.serve(
+            handler,
+            InternetAddress.anyIPv4,
+            int.tryParse(Platform.environment['PORT'] ?? '8080') ?? 8080,
+            );
 
-  // Enable content compression
-  server.autoCompress = true;
-
-  print('Serving at http://${server.address.host}:${server.port}');
+    print('Serving at http://${server.address.host}:${server.port}');
 }
 
 Response _echoRequest(Request request) =>
-    Response.ok('Request for "${request.url}"');
+Response.ok('Request for "${request.url}"... worked!');
